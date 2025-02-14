@@ -63,4 +63,69 @@ class ProductRepositoryTest {
         assertEquals(product2.getProductId(), savedProduct.getProductId());
         assertFalse(productIterator.hasNext());
     }
+    @Test
+    void testEditProductSuccess() {
+        // Arrange: Buat dan simpan produk awal
+        Product product = new Product();
+        product.setProductId("12345");
+        product.setProductName("Sampo Original");
+        product.setProductQuantity(10);
+        productRepository.create(product);
+
+        // Act: Update produk
+        product.setProductName("Sampo Baru");
+        product.setProductQuantity(20);
+        Product updatedProduct = productRepository.update(product);
+
+        // Assert: Pastikan update berhasil
+        assertNotNull(updatedProduct);
+        assertEquals("12345", updatedProduct.getProductId());
+        assertEquals("Sampo Baru", updatedProduct.getProductName());
+        assertEquals(20, updatedProduct.getProductQuantity());
+    }
+
+    @Test
+    void testEditProductFailure() {
+        // Arrange: Buat produk yang tidak ada dalam repository
+        Product product = new Product();
+        product.setProductId("99999"); // ID tidak ada dalam repository
+        product.setProductName("Produk Tidak Ada");
+        product.setProductQuantity(50);
+
+        // Act: Coba update produk yang tidak ada
+        Product updatedProduct = productRepository.update(product);
+
+        // Assert: Pastikan update gagal
+        assertNull(updatedProduct);
+    }
+    @Test
+    void testDeleteProductSuccess() {
+        // Arrange: Buat dan simpan produk awal
+        Product product = new Product();
+        product.setProductId("12345");
+        product.setProductName("Sampo Original");
+        product.setProductQuantity(10);
+        productRepository.create(product);
+
+        // Act: Hapus produk
+        productRepository.delete("12345");
+
+        // Assert: Pastikan produk sudah terhapus
+        Product deletedProduct = productRepository.findById("12345");
+        assertNull(deletedProduct);
+    }
+
+    @Test
+    void testDeleteProductFailure() {
+        // Act: Hapus produk dengan ID yang tidak ada
+        productRepository.delete("99999"); // ID tidak ada dalam repository
+
+        // Assert: Pastikan tidak ada error saat menghapus produk yang tidak ada
+        assertNull(productRepository.findById("99999"));
+    }
+
+
+
+
+
 }
