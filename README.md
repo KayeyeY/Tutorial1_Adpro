@@ -18,3 +18,4 @@ Dalam mengerjakan tutorial ini, ketika mendapat error atau kesalahan dalam kode 
 discord Advance Programing untuk mencari permasalahan yang sama dengan yang saya alami, tidak jarang juga saya
 bertanya kepada teman dan asisten dosen di forum untuk mencari solusi jika permasalahan yang saya alami 
 tidak ada pada help desk discord.
+

@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.UUID;
+
 @Repository
 public class ProductRepository {
     private List<Product> productsData = new ArrayList<>();
@@ -14,6 +15,9 @@ public class ProductRepository {
     public Product create(Product product) {
         if (product.getProductId() == null || product.getProductId().isEmpty()) {
             product.setProductId(UUID.randomUUID().toString()); // Set ID jika kosong
+        }
+        if (product.getProductQuantity() < 0) {
+            product.setProductQuantity(0); // Set quantity ke 0 jika negatif
         }
         productsData.add(product);
         return product;
@@ -33,6 +37,9 @@ public class ProductRepository {
     public Product update(Product updatedProduct) {
         for (int i = 0; i < productsData.size(); i++) {
             if (productsData.get(i).getProductId().equals(updatedProduct.getProductId())) {
+                if (updatedProduct.getProductQuantity() < 0) {
+                    updatedProduct.setProductQuantity(0); // Set quantity ke 0 jika negatif
+                }
                 productsData.set(i, updatedProduct);
                 return updatedProduct;
             }
