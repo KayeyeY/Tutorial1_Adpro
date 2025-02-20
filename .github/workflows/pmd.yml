@@ -3,7 +3,7 @@
 # separate terms of service, privacy policy, and support
 # documentation.
 
-name: PMD
+name: pmd
 
 ## Run PMD jobs on all branches by default
 on:
