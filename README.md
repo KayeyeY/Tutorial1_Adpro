@@ -19,3 +19,36 @@ discord Advance Programing untuk mencari permasalahan yang sama dengan yang saya
 bertanya kepada teman dan asisten dosen di forum untuk mencari solusi jika permasalahan yang saya alami 
 tidak ada pada help desk discord.
 
+
+# Module 2: CI/CD & DevOps
+Link deployment: https://corporate-yasmin-kayeyey-b3dba0e7.koyeb.app/product/list
+
+## Reflection 1
+- Saya mendapatkan code quality problem yang di detect JACOCO dan PMD, permasalahan yang saya coba fix dari pmd adalah
+Unnecessary modifier public on method yang sebelumnya ada public perlu dihapus public-nya.
+
+```java
+public interface ProductService {
+    Product create(Product product);
+    List<Product> findAll();
+    Product findById(String productId);
+    Product update(Product product);
+    void delete(String productId);
+}
+```
+
+- Problem This utility class has a non-private constructor, untuk solved solution dikarenakan main tidak perlu untuk private
+maka ditambahkan line di bawah.
+```java
+@SuppressWarnings("PMD.UseUtilityClass")
+```
+
+- Problem ```import org.springframework.web.bind.annotation.*;``` tidak saya perbaiki dikarenakan untuk memperbaiki nya perlu
+untuk import yang digunakan saja, terkadang dari Intellij nya sendiri ketika banyak yang diimport dari springframework akan
+secara otomatis menjadi ```import org.springframework.web.bind.annotation.*;```.
+
+## Reflection 2
+- Menurut saya, CI/CD sudah diimplementasikan pada kode proyek saya.Untuk Continuous saya menggunakan Github Actions Workflow 
+untuk menjalankan Workflow yang sudah saya buat seperti ci.yml, scorecard dan pmd.yml. Workflow tersebut akan secara otomatis mendetect ketika saya
+menjalankan push atau pull pada branch yang saya pilih. Untuk Continuous Deployment saya menggunakan Koyeb yang akan deploy secara otomatis setiap
+saya melakukan push atau pull ke suatu branch.
