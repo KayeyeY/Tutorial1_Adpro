@@ -3,39 +3,40 @@
 # separate terms of service, privacy policy, and support
 # documentation.
 
+# This workflow uses actions that are not certified by GitHub.
+# They are provided by a third-party and are governed by
+# separate terms of service, privacy policy, and support
+# documentation.
+
 name: pmd
 
+## Run PMD jobs on all branches by default
 on:
   push:
-    branches: [ "main" ]
   pull_request:
-    branches: [ "main" ]
-  schedule:
-    - cron: '33 11 * * 2'
-
-permissions:
-  contents: read
 
 jobs:
-  pmd-code-scan:
+  pmd:
+    name: Run tests
+    runs-on: ubuntu-22.04
     permissions:
-      contents: read # for actions/checkout to fetch code
-      security-events: write # for github/codeql-action/upload-sarif to upload SARIF results
-      actions: read # only required for a private repository by github/codeql-action/upload-sarif to get the Action run status
-    runs-on: ubuntu-latest
+      # required for all workflows
+      security-events: write
     steps:
-      - uses: actions/checkout@v4
-      - name: Set up JDK 11
+      - name: Check out the Git repository
+        uses: actions/checkout@v4
+      - name: Set up Java toolchain
         uses: actions/setup-java@v4
         with:
-          java-version: '11'
           distribution: 'temurin'
-      - name: Run PMD
+          java-version: '21'
+          cache: 'gradle'
+      - uses: pmd/pmd-github-action@v1
         id: pmd
-        uses: pmd/pmd-github-action@967a81f8b657c87f7c3e96b62301cb1a48efef29
         with:
-          rulesets: 'rulesets/java/quickstart.xml'
+          version: '7.0.0-rc4'
           sourcePath: 'src/main/java'
+          rulesets: 'rulesets/java/quickstart.xml,ruleset.xml'
           analyzeModifiedFilesOnly: false
       - name: Upload SARIF file
         uses: github/codeql-action/upload-sarif@v3
