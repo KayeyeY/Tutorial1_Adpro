@@ -52,3 +52,56 @@ secara otomatis menjadi ```import org.springframework.web.bind.annotation.*;```.
 untuk menjalankan Workflow yang sudah saya buat seperti ci.yml, scorecard dan pmd.yml. Workflow tersebut akan secara otomatis mendetect ketika saya
 menjalankan push atau pull pada branch yang saya pilih. Untuk Continuous Deployment saya menggunakan Koyeb yang akan deploy secara otomatis setiap
 saya melakukan push atau pull ke suatu branch.
+
+# Module 3: Maintainability & OO Principles
+
+## Reflection 1
+### S.O.L.I.D
+Single Responsibility Principle:
+Sudah diterapkan pada ``ProductController`` dan ``CarController``
+- ``ProductController`` berfungsi untuk melakukan mapping dengan endpoint /product.
+- ``CarController`` berfungsi untuk melakukan mapping dengan endpoint /car.
+
+Open / Closed Principle:
+Sudah diterapkan pada ``CarServiceImpl`` dan ``ProductServiceImpl``
+sebagai contoh pada ``ProductServiceImpl``:
+- Bergantung pada interface (ProductService), bukan implementasi konkret → Jika ingin mengganti 
+cara penyimpanan data (misalnya dari in-memory ke database), cukup buat implementasi baru tanpa mengubah kode yang ada.
+- Terbuka untuk ekstensi, tertutup untuk modifikasi → Jika ada fitur baru (misalnya pencarian berdasarkan kategori), 
+bisa cukup menambahkan metode baru di interface dan implementasinya tanpa mengubah logika yang sudah ada.
+
+Liskov Substitution Principle:
+- Pada branch before-solid, CarController awalnya merupakan subclass dari ProductController, meskipun keduanya memiliki 
+perilaku yang berbeda. Contohnya, metode editProduct di ProductController menggunakan metode POST untuk mengedit produk, 
+sementara editCarPost di CarController juga menggunakan POST, tetapi dengan penanganan yang berbeda. 
+Selain itu, deleteProduct di ProductController menggunakan metode GET, sedangkan deleteCar di CarController menggunakan 
+metode POST. Perbedaan ini menyebabkan objek dari ProductController tidak dapat digantikan dengan objek dari 
+CarController, sehingga melanggar Liskov Substitution Principle (LSP).
+Sebagai solusinya, saya menghapus extends dari CarController, menjadikannya sebagai kelas independen yang tidak 
+bergantung pada ProductController. Hal ini memungkinkan setiap controller memiliki perilaku yang sesuai dengan kebutuhan 
+masing-masing, tanpa dipaksa mengikuti struktur yang tidak cocok.
+
+Interface Segregation Principle:
+- Prinsip ini sudah diterapkan pada CarService. Menurut saya, tidak perlu dilakukan pemisahan lebih lanjut karena 
+interface ini sudah berfokus pada satu tujuan utama, yaitu operasi CRUD (Create, Read, Update, Delete) untuk Car.
+
+Dependency Inversion Principle:
+- Pada branch before-solid, CarController secara langsung bergantung pada CarServiceImpl, yang bukan praktik yang baik. 
+Seharusnya, CarController bergantung pada antarmuka CarService agar lebih fleksibel dan sesuai dengan prinsip desain yang baik. 
+Oleh karena itu, saya mengubah tipe data variabel carServiceImpl di CarController menjadi CarService. Dengan mengganti tipe 
+data dari CarServiceImpl menjadi CarService, CarController sekarang bergantung pada antarmuka, bukan implementasi langsung. 
+
+## Reflection 2
+Prinsip S.O.L.I.D membantu menciptakan kode yang lebih bersih, fleksibel, dan mudah di-maintain. SRP memastikan setiap kelas 
+memiliki satu tanggung jawab, sehingga lebih mudah diuji dan dimodifikasi. OCP memungkinkan kode diperluas tanpa mengubah kode 
+yang ada, meningkatkan reusability. LSP memastikan subclass dapat menggantikan superclass tanpa mengubah perilaku yang 
+diharapkan, menjaga kestabilan sistem. ISP mencegah ketergantungan yang tidak perlu dengan membagi interface besar menjadi 
+lebih spesifik. DIP memastikan kelas bergantung pada abstraksi, bukan implementasi konkret, sehingga sistem lebih fleksibel dan mudah diuji.
+
+## Reflection 3
+Kode yang saya buat menjadi sulit untuk dikelola dan memerlukan usaha lebih besar saat melakukan modifikasi. Selain itu, 
+dalam kerja tim, proses code review akan lebih rumit karena kode sulit dipahami.
+Jika SRP tidak diterapkan pada CarController, saya mungkin tidak kesulitan menemukan bagian kode yang menangani mapping 
+dengan endpoint /car, karena saya yang menulisnya. Namun, bagi orang lain yang membaca repositori, akan sulit menemukan 
+kode tersebut jika digabung dalam satu file dengan ProductController. Selain itu, tanpa menerapkan LSP, subclass 
+CarController tidak dapat sepenuhnya menggantikan superclass-nya, yang mengakibatkan masalah dalam penggunaan kembali kode.
