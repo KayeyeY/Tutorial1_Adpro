@@ -99,7 +99,7 @@ class OrderTest {
         order.setStatus("CANCELLED");
         assertEquals("CANCELLED", order.getStatus());
     }
-    
+
     @Test
     void testSetStatusToInvalidStatus() {
         Order order = new Order(
