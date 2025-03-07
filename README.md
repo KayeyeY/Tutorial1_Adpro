@@ -105,3 +105,14 @@ Jika SRP tidak diterapkan pada CarController, saya mungkin tidak kesulitan menem
 dengan endpoint /car, karena saya yang menulisnya. Namun, bagi orang lain yang membaca repositori, akan sulit menemukan 
 kode tersebut jika digabung dalam satu file dengan ProductController. Selain itu, tanpa menerapkan LSP, subclass 
 CarController tidak dapat sepenuhnya menggantikan superclass-nya, yang mengakibatkan masalah dalam penggunaan kembali kode.
+
+# Module 4: Refactoring and TDD
+
+## Reflection 1
+Menurut saya, alur TDD bermanfaat, meskipun saya masih mengalami kesulitan dalam membuat test terlebih dahulu 
+sebelum mengimplementasikan class. Tetapi menurut saya dengan TDD akan membantu dalam maintainability untuk jangka panjang
+
+## Reflection 2
+Saya masih belum yakin untuk secara penuh sudah melakukan implementasi F.I.R.S.T dikarenakan line dan branch coverage saya
+yang sudah ditambahkan belum mencapai 100% coverage, oleh karena hal tersebut perlu ditambahkan test lagi agar semua
+line dan branch coverage terpenuhi menjadi 100%
